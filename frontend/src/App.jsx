@@ -1,21 +1,29 @@
+import { Routes, Route } from "react-router"
+
+
+//importo i componenti sotto /pages
+import Home from "./pages/Home"
+import Prodotti from "./pages/Prodotti";
+import Categorie from "./pages/Categorie";
+import Dipendenti from "./pages/Dipendenti";
+import Progetti from "./pages/Progetti";
+
+import Layout from "./components/Layout";
+
 function App() {
   return (
-    <div id="main" className="flex">
-      {/** SIDEBAR */}
-      <div id="sidebar" className="p-4 bg-blue-300 fixed h-full w-[320px]">
-        <div className="navigation-bar flex flex-col gap-4">
-          <a href="/prodotti">Prodotti</a>
-          <a href="/categorie">Categorie</a>
-          <a hred="/dipendenti">Dipendenti</a>
-          <a href="/progetti">Progetti</a>
-        </div>
-      </div>
+    <Routes>
 
-      {/** CONTENUTO PRINCIPALE */}
-      <div id="content" className="">
-        <p>Qui deve apparire il contenuto dell'elemento selezionato</p>
-      </div>
-    </div>
+    <Route path="/" element = {<Layout/>}>
+      <Route index element = {<Home/>}/>
+      <Route path="prodotti" element = {<Prodotti/>}/>
+      <Route path="categorie" element = {<Categorie/>}/>
+      <Route path="dipendenti" element = {<Dipendenti/>}/>
+      <Route path="progetti" element = {<Progetti/>}/>
+    </Route>
+    
+    </Routes>
+
   );
 }
 
