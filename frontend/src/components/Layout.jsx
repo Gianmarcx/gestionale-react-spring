@@ -14,11 +14,11 @@ function layout(){
       </div>
 
       {/** CONTENUTO PRINCIPALE */}
-      <div id="content" className="w-[calc(100%-260px)]">
+      <div id="content" className="ml-[320px] p-4 w-full">
         <Outlet />
       </div>
     </div>
-  );
+    )
 }
 
 export default layout;
