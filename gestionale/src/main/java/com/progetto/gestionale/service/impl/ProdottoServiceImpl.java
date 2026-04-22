@@ -12,29 +12,26 @@ import com.progetto.gestionale.repository.ProdottoRepository;
 @Service
 public class ProdottoServiceImpl implements ProdottiService {
 
-    private final ProgettoRepository progettoRepository;
-    private final ProdottoRepository  prodottoRepository;
+ private final ProdottoRepository prodottoRepository;
 
-    public ProdottoServiceImpl(
-        ProdottoRepository prodottoRepository, ProgettoRepository progettoRepository
-
-    ){
+    public ProdottoServiceImpl(ProdottoRepository prodottoRepository) {
         this.prodottoRepository = prodottoRepository;
-        this.progettoRepository = progettoRepository;
-
     }
 
     @Override
     public Prodotto creaProdotto(Prodotto prodotto) {
+
+        // Valori di default per evitare errori
+        if (prodotto.getQuantita() == null) prodotto.setQuantita(1L);
+        if (prodotto.getVisibile() == null) prodotto.setVisibile(true);
+        if (prodotto.getCreatoIl() == null) prodotto.setCreatoIl(java.time.LocalDateTime.now());
+        prodotto.setAggiornatoIl(java.time.LocalDateTime.now());
+
         return prodottoRepository.save(prodotto);
-
-
     }
 
     @Override
-    public List<Prodotto>ottieniTuttiProdotti() {
+    public List<Prodotto> ottieniTuttiProdotti() {
         return prodottoRepository.findAll();
-
     }
-    
 }

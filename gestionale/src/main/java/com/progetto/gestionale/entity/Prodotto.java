@@ -1,6 +1,7 @@
 package com.progetto.gestionale.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
@@ -8,25 +9,29 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-
 @Entity
 @Table(name = "prodotti")
 public class Prodotto {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     @NotBlank
+    
     private String titolo;
 
     private String descrizione;
-    
+
     @NotNull
-    @DecimalMin(value = "0.00" , inclusive = false)
-    @Column(nullable = false, precision = 10 , scale = 2)
+    @DecimalMin(value = "0.00", inclusive = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal prezzo;
+
+    @DecimalMin(value = "0.00", inclusive = false)
+    @Column(nullable = true, precision = 10, scale = 2)
+    private BigDecimal prezzoScontato;
 
     @Column(nullable = false)
     private Long quantita;
@@ -35,24 +40,24 @@ public class Prodotto {
     private Boolean visibile;
 
     private LocalDateTime creatoIl;
+    
+    private LocalDateTime aggiornatoIl;
 
-    private LocalDateTime aggionatoIl;
-
-    public Prodotto(Long id, @NotBlank String titolo, String descrizione,
-            @NotNull @DecimalMin(value = "0.00", inclusive = false) BigDecimal prezzo, Long quantita, Boolean visibile,
-            LocalDateTime creatoIl, LocalDateTime aggionatoIl) {
-        this.id = id;
+    public Prodotto(@NotBlank String titolo, String descrizione,
+            @NotNull @DecimalMin(value = "0.00", inclusive = false) BigDecimal prezzo,
+            @DecimalMin(value = "0.00", inclusive = false) BigDecimal prezzoScontato, Long quantita, Boolean visibile,
+            LocalDateTime creatoIl, LocalDateTime aggiornatoIl) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
+        this.prezzoScontato = prezzoScontato;
         this.quantita = quantita;
         this.visibile = visibile;
         this.creatoIl = creatoIl;
-        this.aggionatoIl = aggionatoIl;
+        this.aggiornatoIl = aggiornatoIl;
     }
 
-    public Prodotto(){
-
+    public Prodotto() {
     }
 
     public Long getId() {
@@ -87,6 +92,14 @@ public class Prodotto {
         this.prezzo = prezzo;
     }
 
+    public BigDecimal getPrezzoScontato() {
+        return prezzoScontato;
+    }
+
+    public void setPrezzoScontato(BigDecimal prezzoScontato) {
+        this.prezzoScontato = prezzoScontato;
+    }
+
     public Long getQuantita() {
         return quantita;
     }
@@ -111,14 +124,15 @@ public class Prodotto {
         this.creatoIl = creatoIl;
     }
 
-    public LocalDateTime getAggionatoIl() {
-        return aggionatoIl;
+    public LocalDateTime getAggiornatoIl() {
+        return aggiornatoIl;
     }
 
-    public void setAggionatoIl(LocalDateTime aggionatoIl) {
-        this.aggionatoIl = aggionatoIl;
+    public void setAggiornatoIl(LocalDateTime aggiornatoIl) {
+        this.aggiornatoIl = aggiornatoIl;
     }
 
     
+
     
 }

@@ -1,97 +1,107 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function Prodotti(){
-    const [prodotti , inserisciProdotti] = useState(null) 
+function Prodotti() {
+  const [prodotti, inserisciProdotti] = useState([]);
 
-    const[prodottoForm , inserisciProdottoForm] = useState({
-        titolo: "",
-        descrizione: "",
-        prezzo: "",
-    });
+  const [titolo, setTitolo] = useState("");
+  const [descrizione, setDescrizione] = useState("");
+  const [prezzo, setPrezzo] = useState("");
 
-    //Interrogare backend , facendo una richiesta HTTP al controller Prodotti
-    useEffect(
-        () => {
-            console.log("Componente avviato")
+  const fetchProdotti = () => {
+    axios.get("http://127.0.0.1:8081/api/prodotti")
+      .then(response => {
+        console.log(response.data);
+        inserisciProdotti(response.data);
+      })
+      .catch(err => console.error(err));
+  };
 
-            axios.get("http://127.0.0.1:8081/api/prodotti").then((response) => {
-                console.log(response.data);
+  useEffect(() => {
+    console.log("Componente avviato");
+    fetchProdotti();
+  }, []);
 
-                inserisciProdotti(response.data)
-            });
-        },   []);
+  // ⭐⭐⭐ QUESTA È LA PARTE CHE TI MANCA ⭐⭐⭐
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        function salvaNuovoProdotto(){
-            axios.post("http://127.0.0.1:8081/api/prodotti",)
-        }
+    axios.post("http://127.0.0.1:8081/api/prodotti", {
+      titolo: titolo,
+      descrizione: descrizione,
+      prezzo: prezzo
+    })
+    .then(() => {
+      fetchProdotti();
+      setTitolo("");
+      setDescrizione("");
+      setPrezzo("");
+    })
+    .catch(err => console.error(err));
+  };
+  // ⭐⭐⭐ FINE PARTE MANCANTE ⭐⭐⭐
 
+  return (
+    <>
+      <h1 className="text-3xl font-semibold mb-[10px]">Prodotti</h1>
 
-        function gestisciInputForm(e){
-            console.log(e.target.value , e.target.name)
-
-            inserisciProdottoForm({
-                ...prodottoForm,
-                [e.target.name]: e.target.value
-            })
-        }
-
-    return(
-        <div className="container mx-auto px-6 py-10">
-
-    <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-900 tracking-tight">
-        Questa è la pagina Prodotti
-    </h1>
-
-    <form  onSubmit= {salvaNuovoProdotto} className = "mb-10 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-        <div className="mb-6">
-            <label 
-                className="block text-gray-700 text-sm font-semibold mb-2 uppercase tracking-wide" 
-                htmlFor="titolo"
-            >
-                Titolo
-            </label>
-
-            <input 
-                type="text"
-                id="titolo"
-                placeholder="Inserisci Titolo..."
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 
-                           focus:ring-2 focus:ring-blue-400 focus:border-blue-400 
-                           transition-all duration-200 shadow-sm"
-            />
+      {/* ⭐⭐⭐ AGGIUNTO onSubmit ⭐⭐⭐ */}
+      <form className="mb-[20px] p-4 border rounded" onSubmit={handleSubmit}>
+        <div className="mb-[10px]">
+          <label>Titolo</label>
+          <input 
+            type="text" 
+            placeholder="Inserisci il titolo..." 
+            className="w-full p-2 border rounded"
+            value={titolo}
+            onChange={(e) => setTitolo(e.target.value)}
+          />
         </div>
-    </form>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {prodotti?.map((prodotto, index) => (
-            <div 
-                key={index} 
-                className="bg-white rounded-xl shadow-md border border-gray-100 p-6 
-                           hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-            >
-                <h2 className="text-2xl font-bold mb-3 text-gray-900">
-                    {prodotto.titolo}
-                </h2>
+        <div className="mb-[10px]">
+          <label>Descrizione</label>
+          <textarea 
+            placeholder="Inserisci la descrizione..." 
+            className="w-full p-2 border rounded"
+            value={descrizione}
+            onChange={(e) => setDescrizione(e.target.value)}
+          ></textarea>
+        </div>
+        
+        <div className="mb-[10px]">
+          <label>Prezzo</label>
+          <input 
+            type="number" 
+            placeholder="Inserisci il prezzo..." 
+            className="w-full p-2 border rounded"
+            value={prezzo}
+            onChange={(e) => setPrezzo(e.target.value)}
+          />
+        </div>
 
-                <p className="text-gray-700 mb-2">
-                    <span className="font-semibold text-gray-900">Prezzo:</span> €{prodotto.prezzo}
-                </p>
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          Aggiungi
+        </button>
+      </form>
 
-                <p className="text-gray-700 mb-2">
-                    <span className="font-semibold text-gray-900">Descrizione:</span> {prodotto.descrizione}
-                </p>
+      <h4 className="text-3xl font-semibold mb-[10px]">Lista prodotti</h4>
+      
+      <div className="space-y-3">
+        {prodotti.map((prodotto, index) => (
+          <div key={index} className="custom-card border rounded-md p-4">
+            <p className="font-medium">Titolo prodotto: {prodotto.titolo}</p>
+            <p className="text-sm text-gray-600">Descrizione prodotto: {prodotto.descrizione}</p>
+            <p className="font-semibold text-blue-600">Prezzo prodotto: {prodotto.prezzo}</p>
 
-                <p className="text-gray-700">
-                    <span className="font-semibold text-gray-900">Quantità:</span> {prodotto.quantita}
-                </p>
+            <div className="space-x-3 mt-[15px]">
+              <button className="bg-green-700 text-white px-4 py-2 rounded">Aggiorna</button>
+              <button className="bg-red-500 text-white px-4 py-2 rounded">Elimina</button>
             </div>
+          </div>
         ))}
-    </div>
-
-</div>
-
-    );
+      </div>
+    </>
+  );
 }
 
 export default Prodotti;
