@@ -1,6 +1,6 @@
 package com.progetto.gestionale.service.impl;
 
-
+import java.util.List;
 import com.progetto.gestionale.repository.ProgettoRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +24,14 @@ public class ProdottoServiceImpl implements ProdottiService {
 
     }
 
+    @Override
     public Prodotto creaProdotto(Prodotto prodotto) {
         return prodottoRepository.save(prodotto);
 
 
     }
 
+    @Override
     public List<Prodotto>ottieniTuttiProdotti() {
         return prodottoRepository.findAll();
 

@@ -51,6 +51,10 @@ public class Prodotto {
         this.aggionatoIl = aggionatoIl;
     }
 
+    public Prodotto(){
+
+    }
+
     public Long getId() {
         return id;
     }

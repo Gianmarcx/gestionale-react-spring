@@ -6,7 +6,7 @@ import com.progetto.gestionale.entity.Prodotto;
 
 public interface ProdottiService {
 
-    Prodotto creaProdotto();
+    Prodotto creaProdotto(Prodotto prodotto);
 
     List <Prodotto>ottieniTuttiProdotti();
     
