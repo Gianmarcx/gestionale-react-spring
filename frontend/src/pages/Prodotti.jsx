@@ -22,7 +22,7 @@ function Prodotti() {
     fetchProdotti();
   }, []);
 
-  // ⭐⭐⭐ QUESTA È LA PARTE CHE TI MANCA ⭐⭐⭐
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -39,13 +39,13 @@ function Prodotti() {
     })
     .catch(err => console.error(err));
   };
-  // ⭐⭐⭐ FINE PARTE MANCANTE ⭐⭐⭐
+  
 
   return (
     <>
       <h1 className="text-3xl font-semibold mb-[10px]">Prodotti</h1>
 
-      {/* ⭐⭐⭐ AGGIUNTO onSubmit ⭐⭐⭐ */}
+      
       <form className="mb-[20px] p-4 border rounded" onSubmit={handleSubmit}>
         <div className="mb-[10px]">
           <label>Titolo</label>
